@@ -68,15 +68,12 @@ function cleanRawWorkItems(rawWorkItems) {
     for(var i=0; i<rawWorkItems.length; i++) {
         var wi = {};
 
-        /*
-                    var title = workItem.Fields.Where(x => x.Key == "System.Title").Select(x => x.Value).First() as string;
-            var who = workItem.Fields.Where(x => x.Key == "System.AssignedTo").Select(x => x.Value).First() as string;
-            var start = (DateTime)workItem.Fields.Where(x => x.Key == "TEDCOM.ACTIVITYSTART").Select(x => x.Value).First();
-            var durationRaw = workItem.Fields.Where(x => x.Key == "TEDCOM.ACTIVITYDURATIONINDAYSFLOAT").Select(x => x.Value);
-            var duration = durationRaw.Count() > 0 ? (Double)(durationRaw.First()) : 0.0;
-    */
-
         wi.title = rawWorkItems[i].fields['System.Title'];
+        wi.who = rawWorkItems[i].fields['System.AssignedTo'];
+        wi.start = new Date(rawWorkItems[i].fields['TEDCOM.ACTIVITYSTART']);
+        wi.duration = rawWorkItems[i].fields['TEDCOM.ACTIVITYDURATIONINDAYSFLOAT'];
+        wi.end = wi.start;
+        wi.end.setDate(wi.start.getDate() + wi.duration);
 
         workItems.push(wi);
     }
@@ -88,12 +85,11 @@ function getICal(workItems) {
 
     for(var i=0; i<workItems.length; i++) {
         cal.createEvent({
-            start: new Date(),
-            end: new Date(new Date().getTime() + 3600000),
+            start: workItems[i].start,
+            end: workItems[i].end,
             summary: workItems[i].title,
-            description: 'It works ;)',
-            location: 'my room',
-            url: 'http://sebbo.net/'
+            description: '',
+            location: workItems[i].who
         });
     }
 
