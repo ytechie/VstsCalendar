@@ -72,8 +72,8 @@ function cleanRawWorkItems(rawWorkItems) {
         wi.who = rawWorkItems[i].fields['System.AssignedTo'];
         wi.start = new Date(rawWorkItems[i].fields['TEDCOM.ACTIVITYSTART']);
         wi.duration = rawWorkItems[i].fields['TEDCOM.ACTIVITYDURATIONINDAYSFLOAT'];
-        wi.end = wi.start;
-        wi.end.setDate(wi.start.getDate() + wi.duration);
+        wi.end = new Date(wi.start);
+        wi.end.setDate(wi.start.getDate() + wi.duration + 1);
 
         workItems.push(wi);
     }
