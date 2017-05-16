@@ -3,8 +3,8 @@ var rp = require('request-promise');
 var ical = require('ical-generator');
 
 var vstsToken = process.env['vsts_token'];
-var vstsQueryPath = process.evn['vsts_query_path'];
-var vstsSiteName = process.evn['vsts_site_name'];
+var vstsQueryPath = process.env['vsts_query_path'];
+var vstsSiteName = process.env['vsts_site_name'];
 
 module.exports = function() {
     var options = {
