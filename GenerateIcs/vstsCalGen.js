@@ -86,7 +86,8 @@ function cleanRawWorkItems(rawWorkItems) {
         wi.start = moment.utc(rawWorkItems[i].fields['TEDCOM.ACTIVITYSTART']).startOf('day').toDate();
         wi.duration = rawWorkItems[i].fields['TEDCOM.ACTIVITYDURATIONINDAYSFLOAT'];
         wi.end = moment.utc(wi.start).add(wi.duration, 'days').toDate();
-        wi.url = 'https://' + vstsSiteName + '.visualstudio.com/DefaultCollection/' + vstsProjectName + '/_workItems?id=' + rawWorkItems[i].id;
+        wi.url = 'https://' + vstsSiteName + '.visualstudio.com/DefaultCollection/' + encodeURIComponent(vstsProjectName)
+            + '/_workItems?id=' + rawWorkItems[i].id;
         wi.shortDescription = rawWorkItems[i].fields['TEDCOM.SHORTDESCRIPTION'];
 
         workItems.push(wi);
