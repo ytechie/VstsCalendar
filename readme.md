@@ -14,16 +14,24 @@ Add to Outlook:
 
 ## Customizing
 
-There are a number of [application settings](https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings) you'll need to configure within your Auzre Function. [Settings.json](settings.json) will have a list of settings you will need to configure.
-
-Additionally, the code makes a number of assumptions about the configuration of your VSTS instance.
+The code makes a number of assumptions about the configuration of your VSTS instance.
 
 Customize [vstsCalGen.js](GenerateIcs/vstsCalGen.js) to set up the mappings between your fields in the iCal fields.
 
+
 # URL Parameters
 
-* `calendarname`
-* `token`
-* `sitename`
-* `project`
-* `queryid`
+* `calendarname`: The name you want to show up in Outlook (or another calendar app)
+* `token`: See 'Creating a PAT' below.
+* `sitename`: https://**mysite**.visualstudio.com/DefaultCollection/My%20Project/_workItems
+* `project`: https://mysite.visualstudio.com/DefaultCollection/**My%20Project**/_workItems
+* `queryid`: https://mysite.visualstudio.com/DefaultCollection/My%20Project/_workItems?id=**24d55f1c-2124-457e-b110-0b4c978a5416**&_a=query
+
+Note: You can also set these paramters as [application settings](https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings) for your function.
+
+
+# Creating a Personal Access Token (PAT)
+
+![](security-menu-item.png)
+
+![](create-access-token.png)
