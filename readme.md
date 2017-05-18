@@ -19,3 +19,11 @@ There are a number of [application settings](https://docs.microsoft.com/en-us/az
 Additionally, the code makes a number of assumptions about the configuration of your VSTS instance.
 
 Customize [vstsCalGen.js](GenerateIcs/vstsCalGen.js) to set up the mappings between your fields in the iCal fields.
+
+# URL Parameters
+
+* `calendarname`
+* `token`
+* `sitename`
+* `project`
+* `queryid`

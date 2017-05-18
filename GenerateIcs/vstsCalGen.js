@@ -3,14 +3,19 @@ var rp = require('request-promise');
 var ical = require('ical-generator');
 var moment = require('moment');
 
-var vstsToken = process.env['vsts_token'];
-var vstsSiteName = process.env['vsts_site_name'];
-var vstsProjectName = process.env['vsts_project_name'];
-var calName = 'VSTS Activities';
+//Query param overridable
+var vstsToken;
+var vstsSiteName;
+var vstsProjectName;
+var calName;
 
 module.exports = function(queryParams) {
-    var queryId = queryParams.queryId || process.env['vsts_query_id'];
-    calName = queryParams.calendarname || calName;
+    var queryId = queryParams.queryid || process.env['vsts_query_id'];
+    calName = queryParams.calendarname || 'VSTS Activities';
+    vstsToken = queryParams.token || process.env['vsts_token'];
+    vstsSiteName = queryParams.sitename || process.env['vsts_site_name'];
+    vstsProjectName = queryParams.project || process.env['vsts_project_name'];
+
 
     console.log('Querying the work item ids using query '+  queryId);
     
