@@ -16,6 +16,7 @@ module.exports = function(queryParams) {
     vstsSiteName = queryParams.sitename || process.env['vsts_site_name'];
     vstsProjectName = queryParams.project || process.env['vsts_project_name'];
 
+    vstsToken = new Buffer(':' + vstsToken).toString('base64');
 
     console.log('Querying the work item ids using query '+  queryId);
     
