@@ -1,6 +1,7 @@
 var http = require("https");
 var rp = require('request-promise');
 var ical = require('ical-generator');
+var moment = require('moment');
 
 var vstsToken = process.env['vsts_token'];
 var vstsSiteName = process.env['vsts_site_name'];
@@ -76,10 +77,9 @@ function cleanRawWorkItems(rawWorkItems) {
 
         wi.title = rawWorkItems[i].fields['System.Title'];
         wi.who = rawWorkItems[i].fields['System.AssignedTo'];
-        wi.start = new Date(rawWorkItems[i].fields['TEDCOM.ACTIVITYSTART']);
+        wi.start = moment.utc(rawWorkItems[i].fields['TEDCOM.ACTIVITYSTART']).startOf('day').toDate();
         wi.duration = rawWorkItems[i].fields['TEDCOM.ACTIVITYDURATIONINDAYSFLOAT'];
-        wi.end = new Date(wi.start);
-        wi.end.setDate(wi.start.getDate() + wi.duration + 1);
+        wi.end = moment.utc(wi.start).add(wi.duration - 1, 'days').endOf('day').toDate();
         wi.url = 'https://' + vstsSiteName + '.visualstudio.com/DefaultCollection/' + vstsProjectName + '/_workItems?id=' + rawWorkItems[i].id;
         wi.shortDescription = rawWorkItems[i].fields['TEDCOM.SHORTDESCRIPTION'];
 

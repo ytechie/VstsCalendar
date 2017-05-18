@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "ical-generator": "^0.2.9",
+    "moment": "^2.18.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   },
