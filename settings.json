@@ -1,8 +1,9 @@
 {
-    "IsEncrypted": false,
-    "Values": {
-        "vsts_token": "",
-        "vsts_query_path": "",
-        "vsts_site_name": ""
-    }
+  "IsEncrypted": false,
+  "Values": {
+    "vsts_token": "",
+    "vsts_site_name": "",
+    "vsts_project_name": "",
+    "vsts_query_id": ""
+  }
 }
