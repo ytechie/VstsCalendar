@@ -83,7 +83,7 @@ function cleanRawWorkItems(rawWorkItems) {
 
         wi.title = rawWorkItems[i].fields['System.Title'];
         wi.who = rawWorkItems[i].fields['System.AssignedTo'];
-        wi.start = moment.utc(rawWorkItems[i].fields['TEDCOM.ACTIVITYSTART']).startOf('day').toDate();
+        wi.start = moment.utc(rawWorkItems[i].fields['CSEngineering.ActivityStartDate']).startOf('day').toDate();
         wi.duration = rawWorkItems[i].fields['CSEngineering.ActivityDuration'];
         wi.end = moment.utc(wi.start).add(wi.duration, 'days').toDate();
         wi.url = 'https://' + vstsSiteName + '.visualstudio.com/DefaultCollection/' + encodeURIComponent(vstsProjectName)
