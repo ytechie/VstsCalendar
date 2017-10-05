@@ -41,9 +41,6 @@ module.exports = function(queryParams) {
             //console.log(calendar);
 
             return calendar;
-        })
-        .catch(function (err) {
-            console.log('Error!' + err);
         });
 }
 
@@ -69,9 +66,6 @@ function retrieveWorkItems(workItemQueryResults) {
         .then(function (parsedBody) {
             //The actual array is in the value field
             return parsedBody.value;
-        })
-        .catch(function (err) {
-            // POST failed... 
         });
 }
 

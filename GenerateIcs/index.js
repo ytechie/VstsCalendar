@@ -10,5 +10,14 @@ module.exports = function (context, req) {
             }
         };
         context.done();
-    });
+    }).catch(function (err) {
+        context.res = {
+            status: 400,
+            body: err.toString(),
+            headers: {
+                'Content-Type': 'text/plain'
+            }
+        };
+        context.done();
+    });;
 };
