@@ -22,6 +22,8 @@ module.exports = function(queryParams) {
     
     var vstsQueryPath = 'https://' + vstsSiteName + '.visualstudio.com/DefaultCollection/' + vstsProjectName + '/_apis/wit/wiql/' + queryId;
 
+    console.log('VSTS Query: ' + vstsQueryPath);
+
     var options = {
         method: 'GET',
         url: vstsQueryPath,
@@ -48,8 +50,12 @@ function retrieveWorkItems(workItemQueryResults) {
         console.log('Querying the work item details');
 
         var ids = [];
-        for(var i=0; i<workItemQueryResults.workItems.length; i++){
-            ids.push(workItemQueryResults.workItems[i].id);
+        if(workItemQueryResults && workItemQueryResults.workItems) {
+            for(var i=0; i<workItemQueryResults.workItems.length; i++){
+                ids.push(workItemQueryResults.workItems[i].id);
+            }
+        } else {
+            return null;
         }
     
         var options = { method: 'GET',
@@ -72,17 +78,21 @@ function retrieveWorkItems(workItemQueryResults) {
 function cleanRawWorkItems(rawWorkItems) {
     var workItems = [];
 
+    if(!rawWorkItems) {
+        return workItems;
+    }
+
     for(var i=0; i<rawWorkItems.length; i++) {
         var wi = {};
 
         wi.title = rawWorkItems[i].fields['System.Title'];
         wi.who = rawWorkItems[i].fields['System.AssignedTo'];
-        wi.start = moment.utc(rawWorkItems[i].fields['CSEngineering.ActivityStartDate']).startOf('day').toDate();
-        wi.duration = rawWorkItems[i].fields['CSEngineering.ActivityDuration'];
+        wi.start = moment.utc(rawWorkItems[i].fields['CSEngineering-V2.ParticipationStartDate']).startOf('day').toDate();
+        wi.duration = rawWorkItems[i].fields['CSEngineering-V2.ActivityDuration'];
         wi.end = moment.utc(wi.start).add(wi.duration, 'days').toDate();
         wi.url = 'https://' + vstsSiteName + '.visualstudio.com/DefaultCollection/' + encodeURIComponent(vstsProjectName)
             + '/_workItems?id=' + rawWorkItems[i].id;
-        wi.shortDescription = rawWorkItems[i].fields['TEDCOM.SHORTDESCRIPTION'] || '';
+        wi.shortDescription = rawWorkItems[i].fields['System.Description'] || '';
 
         workItems.push(wi);
     }
@@ -92,15 +102,17 @@ function cleanRawWorkItems(rawWorkItems) {
 function getICal(workItems) {
     var cal = ical({ name: calName});
 
-    for(var i=0; i<workItems.length; i++) {
-        cal.createEvent({
-            start: workItems[i].start,
-            end: workItems[i].end,
-            summary: workItems[i].title,
-            description: cleanDescription(workItems[i].shortDescription) +  '\n\nOriginal workitem: ' + workItems[i].url,
-            location: workItems[i].who,
-            allDay: true
-        });
+    if(workItems && workItems.length > 0) {
+        for(var i=0; i<workItems.length; i++) {
+            cal.createEvent({
+                start: workItems[i].start,
+                end: workItems[i].end,
+                summary: workItems[i].title,
+                description: cleanDescription(workItems[i].shortDescription) +  '\n\nOriginal workitem: ' + workItems[i].url,
+                location: workItems[i].who,
+                allDay: true
+            });
+        }
     }
 
     var calString = cal.toString();
