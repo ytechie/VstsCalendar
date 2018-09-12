@@ -107,7 +107,7 @@ function getICal(workItems) {
             cal.createEvent({
                 start: workItems[i].start,
                 end: workItems[i].end,
-                summary: workItems[i].title,
+                summary: cleanTitle(workItems[i].title),
                 description: cleanDescription(workItems[i].shortDescription) +  '\n\nOriginal workitem: ' + workItems[i].url,
                 location: workItems[i].who,
                 allDay: true
@@ -135,4 +135,8 @@ function cleanDescription(rawDescription) {
     }
 
     return clean;
+}
+
+function cleanTitle(rawTitle) {
+    return rawTitle.replace('Participant - ', '');
 }
